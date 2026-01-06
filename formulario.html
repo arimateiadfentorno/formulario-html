@@ -16,8 +16,6 @@
 
   <select id="regiao" onchange="atualizarIgrejas()" required>
     <option value="">Selecione a região</option>
-    <option value="Norte">Norte</option>
-    <option value="Sul">Sul</option>
   </select><br><br>
 
   <select id="igreja" required>
@@ -31,7 +29,24 @@
 </form>
 
 <script>
+const API = "https://script.google.com/macros/s/AKfycbx1flJANfl84_6NvNdfKCH4ScSAuvlRUEJHDe5o5P_A2bgjnB3D96wedkkhYiVxaz5l/exec";
 
+// carrega regiões
+window.onload = () => {
+  fetch(API + "?tipo=regioes")
+    .then(r => r.json())
+    .then(lista => {
+      const select = document.getElementById("regiao");
+      lista.forEach(r => {
+        const opt = document.createElement("option");
+        opt.value = r.id;
+        opt.text = r.nome;
+        select.add(opt);
+      });
+    });
+};
+
+// carrega igrejas conforme região
 function atualizarIgrejas() {
   const regiaoId = document.getElementById("regiao").value;
   const igreja = document.getElementById("igreja");
@@ -52,34 +67,11 @@ function atualizarIgrejas() {
     });
 }
 
-const API = "https://script.google.com/macros/s/AKfycbx1flJANfl84_6NvNdfKCH4ScSAuvlRUEJHDe5o5P_A2bgjnB3D96wedkkhYiVxaz5l/exec";
-
-window.onload = () => {
-  fetch(API + "?tipo=regioes")
-    .then(r => r.json())
-    .then(lista => {
-      const select = document.getElementById("regiao");
-      lista.forEach(r => {
-        const opt = document.createElement("option");
-        opt.value = r.id;
-        opt.text = r.nome;
-        select.add(opt);
-      });
-    });
-};
-
-
-
-  igreja.innerHTML = '<option value="">Selecione</option>';
-
-  if (mapaIgrejas[regiao]) {
-  }
-}
-
+// envio do formulário
 document.getElementById("formulario").addEventListener("submit", function(e) {
   e.preventDefault();
 
-  fetch("https://script.google.com/macros/s/AKfycbx1flJANfl84_6NvNdfKCH4ScSAuvlRUEJHDe5o5P_A2bgjnB3D96wedkkhYiVxaz5l/exec", {
+  fetch(API, {
     method: "POST",
     body: JSON.stringify({
       nome: nome.value,
@@ -96,8 +88,3 @@ document.getElementById("formulario").addEventListener("submit", function(e) {
 
 </body>
 </html>
-
-
-
-
-
