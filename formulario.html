@@ -74,11 +74,11 @@ document.getElementById("formulario").addEventListener("submit", function(e) {
   fetch(API, {
     method: "POST",
     body: JSON.stringify({
-      nome: nome.value,
-      campo2: campo2.value,
-      regiao: regiao.value,
-      igreja: igreja.value,
-      quantidade: quantidade.value
+      nome: document.getElementById("nome").value,
+      campo2: document.getElementById("campo2").value,
+      regiao: document.getElementById("regiao").value,
+      igreja: document.getElementById("igreja").value,
+      quantidade: document.getElementById("quantidade").value
     })
   })
   .then(() => alert("Dados enviados com sucesso!"))
@@ -89,4 +89,5 @@ document.getElementById("formulario").addEventListener("submit", function(e) {
 
 </body>
 </html>
+
 
