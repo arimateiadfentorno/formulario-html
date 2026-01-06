@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário</title>
+</head>
+<body>
+
+<h2>Cadastro</h2>
+
+<form id="formulario">
+
+  <input type="text" id="nome" placeholder="Nome" required><br><br>
+
+  <input type="text" id="campo2" placeholder="Outro campo"><br><br>
+
+  <select id="regiao" onchange="atualizarIgrejas()" required>
+    <option value="">Selecione a região</option>
+    <option value="Norte">Norte</option>
+    <option value="Sul">Sul</option>
+  </select><br><br>
+
+  <select id="igreja" required>
+    <option value="">Selecione a igreja</option>
+  </select><br><br>
+
+  <input type="number" id="quantidade" placeholder="Quantidade" required><br><br>
+
+  <button type="submit">Enviar</button>
+
+</form>
+
+<script>
+const mapaIgrejas = {
+  Norte: ["Igreja A", "Igreja B"],
+  Sul: ["Igreja C", "Igreja D"]
+};
+
+function atualizarIgrejas() {
+  const regiao = document.getElementById("regiao").value;
+  const igreja = document.getElementById("igreja");
+
+  igreja.innerHTML = '<option value="">Selecione</option>';
+
+  if (mapaIgrejas[regiao]) {
+    mapaIgrejas[regiao].forEach(item => {
+      const opt = document.createElement("option");
+      opt.value = item;
+      opt.text = item;
+      igreja.appendChild(opt);
+    });
+  }
+}
+
+document.getElementById("formulario").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  fetch("https://script.google.com/macros/s/AKfycbx1flJANfl84_6NvNdfKCH4ScSAuvlRUEJHDe5o5P_A2bgjnB3D96wedkkhYiVxaz5l/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      nome: nome.value,
+      campo2: campo2.value,
+      regiao: regiao.value,
+      igreja: igreja.value,
+      quantidade: quantidade.value
+    })
+  })
+  .then(() => alert("Dados enviados com sucesso!"))
+  .catch(() => alert("Erro ao enviar"));
+});
+</script>
+
+</body>
+</html>
