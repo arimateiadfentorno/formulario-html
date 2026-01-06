@@ -39,12 +39,6 @@ function atualizarIgrejas() {
   igreja.innerHTML = '<option value="">Selecione</option>';
 
   if (mapaIgrejas[regiao]) {
-    mapaIgrejas[regiao].forEach(item => {
-      const opt = document.createElement("option");
-      opt.value = item;
-      opt.text = item;
-      igreja.appendChild(opt);
-    });
   }
 }
 
@@ -68,6 +62,7 @@ document.getElementById("formulario").addEventListener("submit", function(e) {
 
 </body>
 </html>
+
 
 
 
