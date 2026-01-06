@@ -33,8 +33,42 @@
 <script>
 
 function atualizarIgrejas() {
-  const regiao = document.getElementById("regiao").value;
+  const regiaoId = document.getElementById("regiao").value;
   const igreja = document.getElementById("igreja");
+
+  igreja.innerHTML = "<option value=''>Selecione</option>";
+
+  if (!regiaoId) return;
+
+  fetch(API + "?tipo=igrejas&regiao=" + regiaoId)
+    .then(r => r.json())
+    .then(lista => {
+      lista.forEach(i => {
+        const opt = document.createElement("option");
+        opt.value = i.id;
+        opt.text = i.nome;
+        igreja.add(opt);
+      });
+    });
+}
+
+const API = "https://script.google.com/macros/s/AKfycbx1flJANfl84_6NvNdfKCH4ScSAuvlRUEJHDe5o5P_A2bgjnB3D96wedkkhYiVxaz5l/exec";
+
+window.onload = () => {
+  fetch(API + "?tipo=regioes")
+    .then(r => r.json())
+    .then(lista => {
+      const select = document.getElementById("regiao");
+      lista.forEach(r => {
+        const opt = document.createElement("option");
+        opt.value = r.id;
+        opt.text = r.nome;
+        select.add(opt);
+      });
+    });
+};
+
+
 
   igreja.innerHTML = '<option value="">Selecione</option>';
 
@@ -62,6 +96,7 @@ document.getElementById("formulario").addEventListener("submit", function(e) {
 
 </body>
 </html>
+
 
 
 
